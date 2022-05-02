@@ -1,0 +1,13 @@
+<h1>Editez un article</h1>
+<a class="back" href="/home">Back</a>
+<form action="/edit_post/<%= post.id %>" method="post">
+	<label>Titre de l'article</label>
+	<input type="text" name="Title" value="<%=post.Title%>">
+    <label>Nationality</label>
+	<input type="text" name="Nationality" value="<%=post.Nationality%>">
+    <label>Contenu de l'article</label>
+	<textarea name="Contents"><%=post.Contents%></textarea>
+    <label>Photo de l'article</label>
+	<input type="text" name="Picture" value="<%=post.Picture%>">
+    <input type="submit" name="Enregistrer">
+</form>

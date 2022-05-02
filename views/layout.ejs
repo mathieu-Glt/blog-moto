@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Feuilles de style externes -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Blog moto</title>
+</head>
+<body>
+<header class="blog-header">
+    <div class="logogp">
+        <img src="/img/moto-GP.jpg">
+    </div>
+    <header class="blog-header">
+        <div>
+            <% if (session.isLogged === false) { %>
+            <h1><a href="/home"> Le Blog </a></h1>
+            <% } else {%>
+            <h1><a href="/home"> Le Blog Moto GP de <%= session.user.firstName %></a></h1>
+            <% } %>
+            <nav>
+                <a href="/home">Home</a>
+               <!-- condition si l'utilisateur n'est pas connecté
+                    on affiche les liens register et login
+                    
+                //sinon
+                    on affiche les liens logout
+                    
+                    //si il est admin
+                    
+                        //on affiche le lien vers la page admin
+               -->
+               <% if (session.isLogged === false) { %>
+                    <a href="/register">Register</a>
+                    <a href="/login">Login</a>
+               <% } else {%>
+                    <a href="/logout">Logout</a>
+                    <% if (session.isLogged === true && session.user.role === "admin") { %>
+                        <a href="/admin"><i class="fa fa-cogs"></i> Administration</a>
+                    <% } %>
+               <% } %>
+            </nav>
+        </div>
+    </header>
+</header>
+
+<main>
+        <%- include(template) -%>
+</main>
+
+<footer class="blog-footer">
+    <small class="small">Le blog des motard prétentieux</small>
+    <img src="https://img.freepik.com/vecteurs-libre/logo-moto-gp_96853-362.jpg" width="60px"/>
+    <a rel="license" href="https://3wa.fr/propriete-materiel-pedagogique/"><img alt="Propriété de la 3W Academy" style="border-width:0" src="https://3wa.fr/wp-content/themes/3wa2015/img/logos/big.png" width="60px" /><img src="https://oclock.io/images/faq/logo.svg?v=d5017d26" width="50px"</a><br /><span>Cet exercice</span> de <a href="https://3wa.fr">3W Academy</a> est mis à disposition <a rel="license" href="https://3wa.fr/propriete-materiel-pedagogique/">pour l'usage personnel des étudiants, Pas de Rediffusion - Attribution - Pas d'Utilisation Commerciale - Pas de Modification - International</a>.<br />Les autorisations au-delà du champ de cette licence peuvent être obtenues auprès de <a href="mailto:contact@3wa.fr" rel="cc:morePermissions">contact@3wa.fr</a>. Les maquettes ont été réalisées par <a href="#">Mathieu Gillet</a>.
+</footer>
+</body>
+</html>

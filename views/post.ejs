@@ -1,0 +1,51 @@
+<h1>Article</h1>
+<a class="back" href="/home">Back</a>
+<section class="article-detail">
+    <div class="post">
+        
+                <div class="flagPost">
+                    <img src="<%= postId.Nationality %>" alt="drapeau france"/>
+                </div>
+                <h2><%= postId.Title %></h2>
+                <p><%= postId.Contents %></p>
+                <div class="picturePost">
+                    <img src="<%= postId.Picture %>" alt="moto<%= postId.Title %>" />
+                </div>
+            
+
+    
+    <div class="editButton">
+        <% console.log(session.isLogged) %>
+        <% if(session.isLogged === true) {%>
+            <a class="editArticle" href="/edit_post/<%= postId.id %>">Modifier l'article</a>
+        <% } %>
+        
+        
+    </div>
+
+    <section class="comment-article">
+        <ul>
+            <%for(let i = 0; i < comment.length; i++) {%>
+                <li>
+                    <h3><%=comment[i].Name%></h3>
+                    <p><%=comment[i].Contents%></p>
+                    <p class="date-comment"><%=new Date(comment[i].CreationTimestamp).toLocaleDateString()%></p>
+                </li>
+            <% } %>
+        </ul>
+        <ul>
+        </ul>
+
+        <hr/>
+    </section>
+    <form action="/add_comment/<%=postId.id%>" method="post">
+        <label>Pseudo</label>
+        <input type="text" name="Name">
+        <label>commentaire</label>
+        <textarea name="Contents"></textarea>
+        <input type="submit" name="Enregistrer">
+    </form>
+
+    </div>
+
+</section>    
