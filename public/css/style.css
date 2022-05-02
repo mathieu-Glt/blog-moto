@@ -356,6 +356,33 @@ a.editArticle {
 	font-family: cursive;
 }
 
+.errorMsg {
+	background-color: red;
+	text-align: center;
+	padding: 2%;
+	font-size: 30px;
+	border-radius: 30px;
+}
+.bienvenue {
+	background-color: rgb(26, 164, 255);
+	text-align: center;
+	padding: 2%;
+	font-size: 30px;
+	border-radius: 30px;
+	font-family: cursive;
+
+}
+
+.bienvenueUser {
+	background-color: rgb(255, 242, 0);
+	text-align: center;
+	padding: 2%;
+	font-size: 30px;
+	border-radius: 30px;
+	font-family: cursive;
+
+}
+
 
 
 

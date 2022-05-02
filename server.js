@@ -1,5 +1,6 @@
 
 const express = require('express');
+const flash = require('connect-flash')
 const app = express();
 
 //ici on recup tout le dossier pubic (css, fonts, img, js)
@@ -12,6 +13,8 @@ app.set('view engine', 'ejs');
 //parse les url
 app.use(express.urlencoded({ extended: false}));
 app.use(express.json());
+//ajoute message flash
+app.use(flash());
 
 //module pour crypter et comparer par un mot de passe
 const bcrypt = require('bcrypt');
@@ -24,6 +27,8 @@ let parseurl = require('parseurl');
 const mysql = require('promise-mysql');
 //session va gérer la création/vérification du token lors du login
 app.use(session({
+    secure: true,
+    httpOnly: true,
     secret: 'love panda',
     resave: false,
     saveUninitialized: true,

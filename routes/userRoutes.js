@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const flash = require('connect-flash');
 
 module.exports = (app, db) =>{
 
@@ -50,9 +51,10 @@ module.exports = (app, db) =>{
 		
 		            req.session.isLogged = true
 		            res.redirect('/home');
+					//req.flash('info', 'Bienvenue !')
 	            } else {
 	            	//sinon on envoie l'erreur mauvais mot de passe
-	            	res.render('layout', {template: 'login', error: "Mot de passe incorrect", session: req.session})
+	            	res.render('layout', {template: 'login', error: "Mot de passe incorrect",  session: req.session})
 	            }
 	    	})
 	    	.catch(err=>console.log("Echec comparaison mdp", err))

@@ -1,12 +1,18 @@
 
 <h1>Connectez vous</h1>
 <% if (error !== null) { %>
-	<p><%= error %></p>
+	<p class="errorMsg"><%= error %></p>
 <% } %>
+
+<% if (error == null) { %>
+	<p class="errorMsgvalid"><%= error %></p>
+<% } %>
+
+
 <form action="/login" method="post">
 	<label>Email</label>
-	<input type="text" name="email">
+	<input type="text" name="email" required>
 	<label>Password</label>
-	<input type="password" name="password">
-	<input type="submit" name="Se connecter">
+	<input type="password" name="password" required>
+	<input type="submit" name="Se connecter"> 
 </form>

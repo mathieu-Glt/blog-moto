@@ -1,4 +1,13 @@
-<h1 class="mainlyTitle">Bienvenue sur mon Blog Moto !</h1><br>
+<% if (session.isLogged === true ) { %>
+  <p class="bienvenueUser">Bienvenue <%= session.user.firstName %> !</p>
+<% } %>
+<% if(session.isLogged === false) { %>
+<p class="bienvenue">Bienvenue !</p>
+<% } %>
+
+
+
+<h1 id="#ancre" class="mainlyTitle">Bienvenue sur mon Blog Moto !</h1><br>
 <h3 class="mainlyTitle">Bienvenu sur mon blog, voici une petite biographie de tous les meilleurs pilotes de la catégorie Moto GP!!!!</h3>
 <br>
 <figure>
