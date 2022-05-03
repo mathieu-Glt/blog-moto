@@ -15,7 +15,6 @@ class PostModel {
         let sql = 'SELECT * FROM post';
         return db.query(sql, [])
         .then((response)=>{
-            console.log(response);
             return response;
         })
         .catch((err)=>{

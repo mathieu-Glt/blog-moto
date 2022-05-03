@@ -8,7 +8,7 @@ module.exports = (app, db) =>{
     app.get('/home', async (req, res, next)=>{
         // requête pour récup tous les articles
         let postsBDD = await postModel.getAllPosts()
-        console.log("home page", postsBDD)
+        //console.log("home page", postsBDD)
         // si il y a une erreur
         if(postsBDD.code){
             res.json({status: 500, error: postsBDD})
