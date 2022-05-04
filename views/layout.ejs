@@ -20,7 +20,7 @@
     <header class="blog-header">
         <div>
             <% if (session.isLogged === false) { %>
-            <h1><a href="/home"> Le Blog </a></h1>
+            <h1 id="anchor"><a href="/home"> Le Blog </a></h1>
             <% } else {%>
             <h1><a href="/home"> Le Blog Moto GP de <%= session.user.firstName %></a></h1>
             <% } %>
@@ -58,6 +58,7 @@
     <small class="small">Le blog des motard prétentieux</small>
     <img src="https://img.freepik.com/vecteurs-libre/logo-moto-gp_96853-362.jpg" width="60px"/>
     <a rel="license" href="https://3wa.fr/propriete-materiel-pedagogique/"><img alt="Propriété de la 3W Academy" style="border-width:0" src="https://3wa.fr/wp-content/themes/3wa2015/img/logos/big.png" width="60px" /><img src="https://oclock.io/images/faq/logo.svg?v=d5017d26" width="50px"</a><br /><span>Cet exercice</span> de <a href="https://3wa.fr">3W Academy</a> est mis à disposition <a rel="license" href="https://3wa.fr/propriete-materiel-pedagogique/">pour l'usage personnel des étudiants, Pas de Rediffusion - Attribution - Pas d'Utilisation Commerciale - Pas de Modification - International</a>.<br />Les autorisations au-delà du champ de cette licence peuvent être obtenues auprès de <a href="mailto:contact@3wa.fr" rel="cc:morePermissions">contact@3wa.fr</a>. Les maquettes ont été réalisées par <a href="#">Mathieu Gillet</a>.
+    <a href="#anchor">Aller en haut de page</a>
 </footer>
 </body>
 </html>

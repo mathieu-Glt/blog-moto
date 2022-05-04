@@ -1,31 +1,37 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const flash = require('connect-flash');
+const bodyParser = require('body-parser')
 const { check, validationResult } = require('express-validator')
+const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 module.exports = (app, db) =>{
 
     const userModel = require('../models/userModel')(db)
 
-    app.get("/test", async(req, res, next)=>{
+    app.get("/test", async(req, res)=>{
         res.json({status: 200, msg: "PAGE TEST"})
     })
 
     //route get pour enregistrer un utilisateur
-    app.get('/register', async(req, res, next)=>{
+    app.get('/register', async(req, res)=>{
         res.render('layout', {template: 'register', session: req.session})
     })
 
     //route post pour enregistrer un utilisateur
-    app.post('/register',
+    app.post('/register', urlencodedParser, [
 	check('email', 'This email must correspond to a valid email ').isEmail().normalizeEmail(),
-	check('firstName', 'This firstName must to be write with aplha characters and 4 characters min').isAlpha().exists().isLength({min: 4}),
-	check('lastName', 'This lastName must to be write with aplha characters and 4 characters min').isAlpha().exists().isLength({min: 4}),
+	check('firstname', 'This firstName must to be write with aplha characters and 4 characters min').isAlpha().exists().isLength({min: 4}),
+	check('lastname', 'This lastName must to be write with aplha characters and 4 characters min').isAlpha().exists().isLength({min: 4}),
 	check('password').isLength({min: 8}),
-	 async(req, res, next)=>{
+	], async(req, res) => {
 		 const errors = validationResult(req);
 		 if(!errors.isEmpty()) {
-			 return res.status(400).json({ errors: errors.array()});
+			 const alert = errors.array()
+			 //return res.status(400).json({ errors: errors.array()});
+			 //return res.render('layout', {template : 'register', status: 200,  errors: console.log("errors", errors.array()), session : req.session})
+			 return res.render('layout', {template : 'register', status: 200,  alert: alert, session : req.session})
+
 		 }
         let user = await userModel.saveOneUser(req)
         console.log(user)
@@ -43,15 +49,17 @@ module.exports = (app, db) =>{
     //route post d'envoi du login pour la connexion (avec creation de session)
 	app.post('/login', 		
 	check('email', 'This email must correspond to a valid email ').isEmail().normalizeEmail(),
-	check('password').isLength({min: 8}),
+	check('password').isLength({min: 4}),
 	async(req, res, next)=>{
 		console.log(req.body)
 		let user = await userModel.getUserByEmail(req.body.email)
         console.log(user)
 		const errors = validationResult(req);
 		if(!errors.isEmpty()) {
-			console.log('error validation')
-			return res.status(400).json( {errors: errors.array() })
+			const alert = errors.array()
+			//return res.status(400).json( {errors: errors.array() })
+			return res.render('layout', {template : 'login', status: 200, error: "", alert: alert, session : req.session})
+
 		}
 		
 		if(user.length === 0){

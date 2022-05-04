@@ -66,7 +66,7 @@ main {
 	padding: 3% 10%
 }
 
-.
+
 
 main p {
 	text-align: center;
@@ -400,6 +400,25 @@ a.editArticle {
 	border-radius: 30px;
 	font-family: cursive;
 
+}
+
+.alert-warning {
+	background-color: #ecab08;
+	color: #100202;
+	text-align: center;
+	border-radius: 30px;
+	font-size: 20px;
+	font-weight: bold;
+	font-family: cursive;
+}
+
+.para {
+	margin: 10px;
+}
+
+span.span {
+	background-color: red;
+	width: 50px;
 }
 
 

@@ -83,10 +83,8 @@ mysql.createConnection({
 
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, ()=>{
-    //console.log('listening port '+PORT+' everything is under control !');
-    //console.log('listening port '+PORT+' T\'es oK, t\'es Bat, t\'es In!');
-}) 
+app.listen(PORT, 
+) 
 console.log('listening port '+PORT+' all is ok');
 
 

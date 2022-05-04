@@ -45,6 +45,19 @@
         <textarea name="Contents"></textarea>
         <input type="submit" name="Enregistrer">
     </form>
+    <div class="container">
+        <form action="/add_comment/<%=postId.id%>" method="post">
+            <div class="form-group">
+                <label for="pseudo" class="form-label">Pseudo</label>
+                <input type="text" class="form-control" name="name" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
 
     </div>
 

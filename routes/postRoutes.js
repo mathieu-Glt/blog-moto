@@ -3,9 +3,8 @@
 module.exports = (app, db) =>{
 
     const postModel = require('../models/postModel')(db)
-    const userModel = require('../models/userModel')(db)
     
-    app.get('/home', async (req, res, next)=>{
+    app.get('/home', async (req, res) => {
         // requête pour récup tous les articles
         let postsBDD = await postModel.getAllPosts()
         //console.log("home page", postsBDD)
@@ -17,7 +16,7 @@ module.exports = (app, db) =>{
         res.render("layout", {template: "home", posts: postsBDD, session: req.session})
     })
 
-    app.get('/post/:id', async(req, res, next)=>{
+    app.get('/post/:id', async(req, res) => {
         let id = req.params.id
         //requête pour récup un article
         let postId = await postModel.getOnePost(id);
