@@ -115,11 +115,17 @@ main form {
 }
 
 main form label{
-	color:#9b9b9b;
-	text-decoration: underline;
+	color:#100202;
+	text-decoration: none;
+}
+div.form-group {
+	text-align: start;
+	font-family: cursive;
+	margin-bottom: 20px;
 }
 
-main form input {
+
+/*main form input {
 	display: block;
 	margin: 25px auto;
 	width: 70%;
@@ -130,7 +136,7 @@ main form textarea {
 	margin: 25px auto;
 	width: 70%;
 	height: 120px;
-}
+}*/
 
 main form input[type=submit] {
 	height: 40px;
@@ -146,6 +152,19 @@ main form select {
 	width: 70%;
 	text-align: center;
 }
+
+.connectYou {
+	color: #100202;
+	font-family: cursive;
+	text-align: center;
+}
+
+.registerYou {
+	color: #100202;
+	font-family: cursive;
+	text-align: center;
+}
+
 
 
 
