@@ -9,7 +9,7 @@ module.exports = (app, db) =>{
 
     const userModel = require('../models/userModel')(db)
 
-    app.get("/test", async(req, res)=>{
+    app.get("/test", async(res)=>{
         res.json({status: 200, msg: "PAGE TEST"})
     })
 
@@ -19,12 +19,12 @@ module.exports = (app, db) =>{
     })
 
     //route post pour enregistrer un utilisateur
-    app.post('/register', urlencodedParser, [
-	check('email', 'This email must correspond to a valid email ').isEmail().normalizeEmail(),
-	check('firstname', 'This firstName must to be write with aplha characters and 4 characters min').isAlpha().exists().isLength({min: 4}),
-	check('lastname', 'This lastName must to be write with aplha characters and 4 characters min').isAlpha().exists().isLength({min: 4}),
-	check('password').isLength({min: 8}),
-	], async(req, res) => {
+    app.post('/register',
+	check('email', 'This email must correspond to a valid email ').isEmail(),
+	check('firstname', 'This firstName to be required and must to be write with aplha character').isAlpha().exists(),
+	check('lastname', 'This lastName to be required and must to be write with aplha character ').isAlpha().exists(),
+	check('password', 'Password must to be min 8 characters and Alpha numeric').isLength({min: 8}).isAlphanumeric(),
+	async(req, res) => {
 		 const errors = validationResult(req);
 		 if(!errors.isEmpty()) {
 			 const alert = errors.array()
@@ -34,7 +34,6 @@ module.exports = (app, db) =>{
 
 		 }
         let user = await userModel.saveOneUser(req)
-        console.log(user)
         if(user.code){
             res.render('layout', {template : 'register', status: 500, msg : 'il y a eu un prblème !', result : user, session : req.sesssion})
         }
@@ -42,18 +41,16 @@ module.exports = (app, db) =>{
     })
 
     //route get d'affichage de la page login
-	app.get('/login', async (req, res, next)=>{
+	app.get('/login', async (req, res)=>{
         res.render('layout', {template: 'login', error: null, session: req.session})
       })
 
     //route post d'envoi du login pour la connexion (avec creation de session)
 	app.post('/login', 		
-	check('email', 'This email must correspond to a valid email ').isEmail().normalizeEmail(),
-	check('password').isLength({min: 4}),
-	async(req, res, next)=>{
-		console.log(req.body)
+	check('email', 'This email must correspond to a valid email ').isEmail(),
+	check('password', 'Password must to be min 8 characters and Alpha numeric').isLength({min: 4}).isAlphanumeric(),
+	async(req, res)=>{
 		let user = await userModel.getUserByEmail(req.body.email)
-        console.log(user)
 		const errors = validationResult(req);
 		if(!errors.isEmpty()) {
 			const alert = errors.array()
@@ -67,7 +64,6 @@ module.exports = (app, db) =>{
 		}else{
 			bcrypt.compare(req.body.password, user[0].Password)
 	    	.then((same)=>{
-	      		console.log('SAME', same);
 	      		if(same) {
 		            req.session.user = {
 		              firstName: user[0].FirstName,
@@ -89,7 +85,7 @@ module.exports = (app, db) =>{
 	})
 
     //route get de logout
-	app.get('/logout', async (req, res, next)=> {
+	app.get('/logout', async (req, res)=> {
         req.session.destroy((err) =>{
           // cannot access session here
           res.redirect('/home');

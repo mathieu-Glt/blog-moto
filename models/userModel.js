@@ -12,7 +12,7 @@ static saveOneUser(req){
     return bcrypt.hash(req.body.password, saltRounds)
     .then((hash)=>{
         let sql = 'INSERT INTO `user` (`Email`,`Password`,`Role`,`FirstName`,`LastName`) VALUES (?, ?, "user", ?, ?)';
-        return db.query(sql, [req.body.email, hash, req.body.firstName, req.body.lastName])
+        return db.query(sql, [req.body.email, hash, req.body.firstname, req.body.lastname])
         .then((response)=>{
             return response;
         })
