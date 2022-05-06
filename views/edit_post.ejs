@@ -1,13 +1,24 @@
 <h1>Editez un article</h1>
 <a class="back" href="/home">Back</a>
-<form action="/edit_post/<%= post.id %>" method="post">
-	<label>Titre de l'article</label>
-	<input type="text" name="Title" value="<%=post.Title%>">
-    <label>Nationality</label>
-	<input type="text" name="Nationality" value="<%=post.Nationality%>">
-    <label>Contenu de l'article</label>
-	<textarea name="Contents"><%=post.Contents%></textarea>
-    <label>Photo de l'article</label>
-	<input type="text" name="Picture" value="<%=post.Picture%>">
-    <input type="submit" name="Enregistrer">
-</form>
+
+<div class="container">
+	<form action="/edit_post/<%= post.id %>" method="post">
+		<div class="form-group">
+			<label for="Title" class="form-label">Titre de l'article</label>
+			<input type="text" class="form-control" name="Title" id="Title" value="<%=post.Title%>">
+		</div>
+		<div class="form-group">
+			<label for="Nationality" class="form-label">Nationality</label>
+			<input type="text" class="form-control" name="Nationality" id="Nationality" value="<%=post.Nationality%>">
+		</div>
+		<div class="form-group">
+			<label for="Contents" class="form-label">Contenu de l'article</label>
+			<textarea type="text" class="form-control" name="Contents" id="Contents"><%=post.Contents%></textarea>
+		</div>
+		<div class="form-group">
+			<label for="Picture" class="form-label">Photo de l'article</label>
+			<input type="text" class="form-control" name="Picture" id="Picture" value="<%=post.Picture%>">
+		</div>
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+</div>
