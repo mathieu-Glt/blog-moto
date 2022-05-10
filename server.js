@@ -42,6 +42,8 @@ app.use(function (req, res, next) {
     }
     // get the url pathname   pathname est la section de chemin de l'URL, qui vient après l'hôte et avant la requête
     let pathname = parseurl(req).pathname
+    //console.log(pathname)
+    //console.log(parseurl(req).path)
     //gestion des routes protégées
     let protectedPath = ["/admin", "/add_post", "/edit_post"];
     // route uniquement pour l'admin
