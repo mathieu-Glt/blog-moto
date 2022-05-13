@@ -28,8 +28,6 @@ module.exports = (app, db) =>{
 		 const errors = validationResult(req);
 		 if(!errors.isEmpty()) {
 			 const alert = errors.array()
-			 //return res.status(400).json({ errors: errors.array()});
-			 //return res.render('layout', {template : 'register', status: 200,  errors: console.log("errors", errors.array()), session : req.session})
 			 return res.render('layout', {template : 'register', status: 200,  alert: alert, session : req.session})
 
 		 }
@@ -54,7 +52,6 @@ module.exports = (app, db) =>{
 		const errors = validationResult(req);
 		if(!errors.isEmpty()) {
 			const alert = errors.array()
-			//return res.status(400).json( {errors: errors.array() })
 			return res.render('layout', {template : 'login', status: 200, error: "", alert: alert, session : req.session})
 
 		}
