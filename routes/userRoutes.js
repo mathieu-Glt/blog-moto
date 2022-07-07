@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const { check, validationResult } = require('express-validator')
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
+
 module.exports = (app, db) =>{
 
     const userModel = require('../models/userModel')(db)
@@ -28,7 +29,7 @@ module.exports = (app, db) =>{
 		 const errors = validationResult(req);
 		 if(!errors.isEmpty()) {
 			 const alert = errors.array()
-			 return res.render('layout', {template : 'register', status: 200,  alert: alert, session : req.session})
+			 return res.render('layout', {template : 'register', status: 400,  alert: alert, session : req.session})
 
 		 }
         let user = await userModel.saveOneUser(req)
