@@ -78,6 +78,11 @@ mysql.createConnection({
     userRoutes(app, db);
     postRoutes(app, db);
     adminRoutes(app, db);
+
+    app.get('/', (req, res, next) => {
+		res.json({ status: 200, results: "welcome to api" })
+	});
+
 })
 .catch(err=>console.log("Echec connexion BDD: ", err))
 
@@ -85,10 +90,9 @@ mysql.createConnection({
 
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, 
-) 
-console.log('listening port '+PORT+' all is ok');
-
+app.listen(PORT, () => {
+	console.log('listening port ' + PORT + ' all is ok');
+})
 
 
 

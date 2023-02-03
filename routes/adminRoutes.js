@@ -1,4 +1,4 @@
-const bcryptjs = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const session = require('express-session');
 const saltRounds = 10;
 
