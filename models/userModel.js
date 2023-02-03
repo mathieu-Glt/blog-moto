@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const saltRounds = 10;
 
 module.exports = (_db)=>{

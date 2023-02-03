@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(flash());
 
 //module pour crypter et comparer par un mot de passe
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const saltRounds = 10;
 let session = require('express-session');
 let parseurl = require('parseurl');

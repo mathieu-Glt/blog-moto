@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const saltRounds = 10;
 const flash = require('connect-flash');
 const bodyParser = require('body-parser')
@@ -60,7 +60,7 @@ module.exports = (app, db) =>{
 		if(user.length === 0){
 			res.render('layout', {template: 'login', error: "Email inconnu", session: req.session})
 		}else{
-			bcrypt.compare(req.body.password, user[0].Password)
+			bcryptjs.compare(req.body.password, user[0].Password)
 	    	.then((same)=>{
 	      		if(same) {
 		            req.session.user = {
