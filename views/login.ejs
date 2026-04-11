@@ -26,6 +26,7 @@
 <div class="container">
 	<form action="/login" method="post">
 		<div class="form-group">
+			<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 			<label for="email" class="form-label">Email</label>
 			<input type="email" class="form-control" name="email" id="email" required>
 		</div>
@@ -33,6 +34,7 @@
 			<label for="password" class="form-label">Password</label>
 			<input type="password" class="form-control" name="password" id="password" required>
 		</div>
-		<input type="submit">Soumettre</input>
+		<button type="submit">Soumettre</button>
 	</form>
+	<script src="/closeBannierErrorForm.js"></script>
 </div>

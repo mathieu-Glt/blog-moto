@@ -16,9 +16,8 @@
 					<a class="back" href="/edit_post/:id"><%=posts[i].Title%></a>
 				</td>
 				<td><%=posts[i].Contents.substring(0, 30)%> ...</td>
-				<td><a class="edit" href="/post/<%=posts[i].id%>"></a></td>
-                <td><a class="remove" href="delete_post/<%=posts[i].PostId%>"></a></td>
-                
+<td><a class="edit" href="/edit_post/<%= posts[i].id %>">Éditer</a></td>
+<td><a class="remove" href="/delete_post/<%= posts[i].id %>">Supprimer</a></td>                
 			</tr>
 		<% } %>
 	</tbody>

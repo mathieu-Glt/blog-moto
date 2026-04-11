@@ -1,63 +1,95 @@
 const express = require("express");
 const flash = require("connect-flash");
-const app = express();
+const session = require("express-session");
+const parseurl = require("parseurl");
+const bcryptjs = require("bcryptjs");
+require("dotenv").config();
+const { Pool } = require("pg");
+const helmet = require("helmet");
+const xssClean = require("xss-clean");
+const csrf = require("csurf");
 
-//ici on recup tout le dossier pubic (css, fonts, img, js)
+const app = express();
+const saltRounds = 10;
+
+// 1. Sécurité headers HTTP
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        imgSrc: ["'self'", "data:", "https:"], // autorise toutes les images https
+        scriptSrc: ["'self'", "https://cdn.jsdelivr.net"],
+        styleSrc: [
+          "'self'",
+          "https://cdn.jsdelivr.net",
+          "https://stackpath.bootstrapcdn.com",
+          "https://fonts.googleapis.com",
+          "'unsafe-inline'",
+        ],
+        fontSrc: [
+          "'self'",
+          "https://fonts.gstatic.com",
+          "https://stackpath.bootstrapcdn.com",
+        ],
+      },
+    },
+  }),
+);
+// 2. Protection XSS
+app.use(xssClean());
+
+// 3. Static files
 app.use(express.static(__dirname + "/public"));
 
-//ici on gère l'affichage des templates front
+// 4. Views
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
-//parse les url
+// 5. Parse request body (AVANT csrf)
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-//ajoute message flash
-app.use(flash());
-require("dotenv").config();
-//module pour crypter et comparer par un mot de passe
-const bcryptjs = require("bcryptjs");
-const saltRounds = 10;
-let session = require("express-session");
-let parseurl = require("parseurl");
 
-//conexion à la base de données
-const mysql = require("promise-mysql");
-//session va gérer la création/vérification du token lors du login
+// 6. Flash messages
+app.use(flash());
+
+// 7. Session (AVANT csrf)
 app.use(
   session({
-    secure: true,
-    httpOnly: true,
-    secret: "love panda",
+    secret: process.env.SESSION_SECRET || "love panda",
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 3600000 },
+    cookie: { maxAge: 3600000, httpOnly: true },
   }),
 );
 
-app.use(function (req, res, next) {
+// 8. CSRF (APRÈS session et body parser)
+const csrfProtection = csrf({ cookie: false });
+app.use(csrfProtection);
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
+// 9. Middleware routes protégées
+app.use((req, res, next) => {
   if (!req.session.user) {
     req.session.user = null;
     req.session.isLogged = false;
   }
-  // get the url pathname   pathname est la section de chemin de l'URL, qui vient après l'hôte et avant la requête
+
   let pathname = parseurl(req).pathname;
-  //console.log(pathname)
-  //console.log(parseurl(req).path)
-  //gestion des routes protégées
-  let protectedPath = ["/admin", "/add_post", "/edit_post"];
-  // route uniquement pour l'admin
-  let onlyAdmin = ["/admin"];
-  //conditions pour les accés aux routes avec restrictions qui redirigent vers le login si il n'est pas connecté ou admin if else if else
+  const protectedPath = ["/admin", "/add_post", "/edit_post"];
+  const onlyAdmin = ["/admin"];
+
   if (
-    (protectedPath.indexOf(pathname) !== -1 ||
-      onlyAdmin.indexOf(pathname) !== -1) &&
-    req.session.isLogged === false
+    (protectedPath.includes(pathname) || onlyAdmin.includes(pathname)) &&
+    !req.session.isLogged
   ) {
     res.redirect("/login");
   } else if (
-    onlyAdmin.indexOf(pathname) !== -1 &&
-    req.session.user.role !== "admin"
+    onlyAdmin.includes(pathname) &&
+    req.session.user?.role !== "admin"
   ) {
     res.redirect("/home");
   } else {
@@ -65,36 +97,32 @@ app.use(function (req, res, next) {
   }
 });
 
-// toutes mes routes
+// 10. Routes + DB
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 
-//connexion Base de données
-mysql
-  .createConnection({
-    host: process.env.DB_HOST, // on rentre l'hôte l'adresse url où se trouve la bdd
-    user: process.env.DB_USER, // identifiant BDD
-    password: process.env.DB_PASSWORD, // le password
-    database: process.env.DB_NAME, // nom de la base de donnée
-  })
-  .then((db) => {
-    console.log("connecté à la database");
-    // setInterval(async function () {
-    //   let res = await db.query("SELECT 1");
-    // }, 1000);
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
+});
 
-    userRoutes(app, db);
-    postRoutes(app, db);
-    adminRoutes(app, db);
-
-    app.get("/", (req, res, next) => {
+pool
+  .connect()
+  .then(() => {
+    console.log("Connecté à la database PostgreSQL");
+    userRoutes(app, pool);
+    postRoutes(app, pool);
+    adminRoutes(app, pool);
+    app.get("/", (req, res) => {
       res.json({ status: 200, results: "welcome to api" });
     });
   })
-  .catch((err) => console.log("Echec connexion BDD: ", err));
+  .catch((err) => {
+    console.error("Erreur connexion DB:", err);
+  });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log("listening port " + PORT + " all is ok");
+  console.log(`Server listening on port ${PORT}`);
 });

@@ -3,11 +3,21 @@
 <section class="article-detail">
     <div class="post">
         
-                <div class="flagPost">
-                    <img src="<%= postId.Nationality %>" alt="drapeau france"/>
-                </div>
-                <h2><%= postId.Title %></h2>
-                <p><%= postId.Contents %></p>
+<% if (postId.Nationality && postId.Nationality.startsWith("I")) { %>
+    <div class="flagPost">
+        <img src="https://lesplusbeauxdrapeauxdumonde.com/wp-content/uploads/2016/07/italy-1460295_1280.jpg?w=620&h=395" alt="drapeau"/>
+    </div>
+<% } else if (postId.Nationality && postId.Nationality.startsWith("F")) { %>
+    <div class="flagPost">
+        <img src="https://media.cdnws.com/_i/4335/290/359/92/drapeau-france-2.png" alt="drapeau"/>
+    </div>
+<% } else if (postId.Nationality && postId.Nationality.startsWith("E")) { %>
+    <div class="flagPost">
+        <img src="https://www.shutterstock.com/image-photo/vibrant-spanish-flag-background-dynamic-600nw-2696393979.jpg" alt="drapeau"/>
+    </div>
+<% } %>%>
+                <h2 class="post-title"><%= postId.Title %></h2>
+                <p class="post-para"><%= postId.Contents %></p>
                 <div class="picturePost">
                     <img src="<%= postId.Picture %>" alt="moto<%= postId.Title %>" />
                 </div>
@@ -41,6 +51,8 @@
 
     <div class="container">
         <form action="/add_comment/<%=postId.id%>" method="post">
+            			<input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
             <div class="form-group">
                 <label for="pseudo" class="form-label">Pseudo</label>
                 <input type="text" class="form-control" name="Name" id="Name">

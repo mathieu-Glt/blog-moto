@@ -14,7 +14,8 @@
 
 
 <div class="container">
-	<form action="/register" method="post">
+	<form action="/register" method="post" novalidate>
+		<input type="hidden" name="_csrf" value="<%= csrfToken %>">
 		<div class="form-group">
 			<label for="firstname" class="form-label">Username</label>
 			<input type="text" class="form-control" name="firstname" id="firstname" required>
@@ -31,7 +32,7 @@
 			<label for="password" class="form-label">Password</label>
 			<input type="password" class="form-control" name="password" id="password" required>
 		</div>
-		<input type="submit">Soumettre</input>
-	</form>
+<button type="submit" >Soumettre</button>	
+</form>
 </div>
-<script src="../public/closeBannierErrorForm.js"></script>
+<script src="/closeBannierErrorForm.js"></script>

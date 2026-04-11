@@ -7,8 +7,11 @@
 <% } %>
 
 
+<div class="buttonHaut">
 
-<h1 id="#ancre" class="mainlyTitle">Bienvenue sur mon Blog Moto !</h1><br>
+  <a class="buttonBasPage" href="#bas">Bas de page</a>
+</div>
+<h1 id="ancre" class="mainlyTitle">Bienvenue sur mon Blog Moto !</h1><br>
 <h3 class="mainlyTitle">Bienvenu sur mon blog, voici une petite biographie de tous les meilleurs pilotes de la catégorie Moto GP!!!!</h3>
 <br>
 <figure>
@@ -22,11 +25,11 @@
 
 <div id="carousel" class="carousel slide" data-bs-ride="carousel" data-interval="1000">
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 3"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 3"></button>
 
     </div>
     <div class="carousel-inner">
@@ -58,15 +61,14 @@
   </div>
 <div class="posts">
     <ul class="home-list">
-    
         <% for(let i=0; i < posts.length; i++) { %>
         <li>
           <div class="portrait">
             <img class="portrait_pilote" src="<%= posts[i].Portrait %>" alt="portrait"/>
           </div>
             <h2 class="title"><%= posts[i].Title %></h2>
-            <p><%= posts[i].Contents %></p>
-            <div class="container">
+<p class="para"><%= posts[i].Contents.substring(0, 500) %>...</p>            
+<div class="container">
                 <a class="buttonDetails" href="/post/<%=posts[i].id%>">Voir les détails de l'article</a>
               <% if(session.isLogged === true) {%>
                 <a class="buttonDelete" href="/delete_post/<%=posts[i].id%>">Supprimer l'article</a>
@@ -78,10 +80,13 @@
     </ul>
     
 </div>
-<% if(session.isLogged === true) {%>
+<div id="bas" class="buttonHaut">
 
+  <a class="buttonHautsPage" href="#ancre">Haut de page</a>
+</div>
+<% if(session.isLogged === true) {%>
 <div class="buttonCreate">
     <a class="buttonCreatePost" href="/add_post">Créer un article</a>
 </div>
 <% } %>
-
+<script src="/autoPlayAudio.js"></script>
