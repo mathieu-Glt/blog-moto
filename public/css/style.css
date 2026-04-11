@@ -493,7 +493,7 @@ span.span {
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 450px) {
   div.posts {
     width: 100%;
     margin: auto;
